@@ -715,6 +715,8 @@ require('lazy').setup({
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
         'jdtls', -- Used for Java LSP
+        'java-debug-adapter', -- Used for Java debugging: https://github.com/mfussenegger/nvim-jdtls?tab=readme-ov-file#debugger-via-nvim-dap
+        'java-test' -- Used for Java debugging
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -723,6 +725,7 @@ require('lazy').setup({
         automatic_installation = false,
         -- See `:h mason-lspconfig.setup_handlers()`
         handlers = {
+          -- Fallback handler if not defined
           function(server_name)
             local server = servers[server_name] or {}
             -- This handles overriding only values explicitly passed
@@ -731,6 +734,7 @@ require('lazy').setup({
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
             require('lspconfig')[server_name].setup(server)
           end,
+          -- We have a handler configured in ftplugin/java/lsp.lua, so setting this handler here to no-op to avoid having two LSPs running parallel
           ['jdtls'] = function() end,
         },
       }
@@ -1009,7 +1013,7 @@ require('lazy').setup({
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug',
+  require 'kickstart.plugins.debug',
   require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
