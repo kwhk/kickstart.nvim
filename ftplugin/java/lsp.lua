@@ -47,7 +47,8 @@ local function debugger()
         -- To avoid 'command line too long' exception, we can use the `shortenCommandLine` flag to create a temporary pathing jar
         -- when running tests via vs-code-java-test
         -- :help jdtls.dap.setup_dap
-        config_overrides = { shortenCommandLine = 'jarmanifest' }
+        config_overrides = { shortenCommandLine = 'jarmanifest' },
+        hotcodereplace = 'auto'
     })
     -- Keymaps for running individual tests
     vim.keymap.set('n', '<leader>dm', function() jdtls.test_nearest_method() end, { desc = "[d]ebug: Test nearest [m]ethod" })
