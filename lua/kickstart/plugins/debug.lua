@@ -58,7 +58,7 @@ return {
     vim.keymap.set("n", "<F10>", dap.restart, { desc = "Debug: Restart" })
     vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, { desc = "[D]ebug: Toggle [b]reakpoint" })
     vim.keymap.set("n", "<leader>dB", dap.set_breakpoint, { desc = "[D]ebug: Set [B]reakpoint" })
-    vim.keymap.set("n", "<leader>du", dapui.toggle, { desc = "[D]ebug: Toggle [U]I" })
+    vim.keymap.set("n", "<leader>do", dapui.toggle, { desc = "[D]ebug: Toggle UI [O]pen" })
     -- Eval var under cursor
     vim.keymap.set("n", "<space>?", function()
       dapui.eval(nil, { enter = true })
