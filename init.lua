@@ -275,7 +275,7 @@ require('lazy').setup({
     opts = {
       -- delay between pressing a key and opening which-key (milliseconds)
       -- this setting is independent of vim.opt.timeoutlen
-      delay = 0,
+      delay = 200,
       icons = {
         -- set icon mappings to true if you have a Nerd Font
         mappings = vim.g.have_nerd_font,
@@ -402,7 +402,17 @@ require('lazy').setup({
           path_display = function(opts, path)
             local tail = require("telescope.utils").path_tail(path)
             return string.format("%s (%s)", tail, path)
-          end
+          end,
+          -- Like IntelliJ, have a vertical layout where preview is stacked below
+          -- the search prompt.
+          -- :h telescope.defaults.layout_strategy
+          layout_strategy = 'vertical',
+          layout_config = {
+            vertical = {
+              prompt_position = "top",
+              mirror = true,
+            }
+          }
         },
         extensions = {
           ['ui-select'] = {
@@ -482,7 +492,7 @@ require('lazy').setup({
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
-      { 'j-hui/fidget.nvim', opts = {} },
+      -- { 'j-hui/fidget.nvim', opts = {} },
 
       -- Allows extra capabilities provided by nvim-cmp
       'hrsh7th/cmp-nvim-lsp',
