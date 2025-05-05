@@ -14,7 +14,8 @@ return {
         ["g?"] = { "actions.show_help", mode = "n" },
         ["<CR>"] = "actions.select",
         ["<C-s>"] = { "actions.select", opts = { vertical = true } },
-        ["<C-h>"] = { "actions.select", opts = { horizontal = true } },
+        -- Disable this as it clashes with Harpoon
+        ["<C-h>"] = false,
         ["<C-t>"] = { "actions.select", opts = { tab = true } },
         ["<C-p>"] = "actions.preview",
         ["<C-c>"] = { "actions.close", mode = "n" },

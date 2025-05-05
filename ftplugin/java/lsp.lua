@@ -128,6 +128,9 @@ local config = {
                     staticStarThreshold = 9999,
                 },
             },
+            -- inlayHints = {
+            --     parameterNames = { enabled = "all" }
+            -- }
         }
     },
 
