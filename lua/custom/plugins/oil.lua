@@ -28,6 +28,9 @@ return {
         ["gx"] = "actions.open_external",
         ["g."] = { "actions.toggle_hidden", mode = "n" },
         ["g\\"] = { "actions.toggle_trash", mode = "n" },
+      },
+      win_options = {
+        winbar = "%{v:lua.require('oil').get_current_dir()}",
       }
     })
 
