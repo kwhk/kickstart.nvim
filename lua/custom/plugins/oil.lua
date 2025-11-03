@@ -8,7 +8,8 @@ return {
     }
   },
   config = function ()
-    require('oil').setup({
+    local oil = require('oil')
+    oil.setup({
       keymaps = {
         -- Below are the default keybindings that exist within an Oil buffer
         ["g?"] = { "actions.show_help", mode = "n" },
@@ -28,6 +29,13 @@ return {
         ["gx"] = "actions.open_external",
         ["g."] = { "actions.toggle_hidden", mode = "n" },
         ["g\\"] = { "actions.toggle_trash", mode = "n" },
+        ["gp"] = {
+          desc = 'Copy current directory path to clipboard',
+          callback = function()
+            local dir = oil.get_current_dir()
+            vim.fn.setreg("+", dir)
+          end
+        }
       },
       win_options = {
         winbar = "%{v:lua.require('oil').get_current_dir()}",
