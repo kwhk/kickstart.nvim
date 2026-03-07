@@ -15,6 +15,9 @@ vim.g.have_nerd_font = true
 -- Set term GUI colors
 vim.opt.termguicolors = true
 
+-- Have I-beam (vertical line) in insert/terminal mode, block otherwise
+vim.opt.guicursor = 'n-v-c:block,i-t:ver25'
+
 -- Make line numbers default
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
