@@ -930,38 +930,42 @@ require('lazy').setup({
   },
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
+    lazy = false,
     build = ':TSUpdate',
-    main = 'nvim-treesitter.configs', -- Sets main module to use for opts
-    -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-    opts = {
-      ensure_installed = {
+    config = function()
+      require('nvim-treesitter').setup()
+
+      local parser_filetypes = {
         'java',
         'python',
-        'bash',
+        'sh',
         'c',
         'diff',
         'html',
-        'latex',
+        'tex',
         'lua',
         'luadoc',
         'markdown',
-        'markdown_inline',
         'query',
         'vim',
-        'vimdoc',
+        'help',
         'typescript',
-      },
-      -- Autoinstall languages that are not installed
-      auto_install = true,
-      highlight = {
-        enable = true,
-        -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-        --  If you are experiencing weird indenting issues, add the language to
-        --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { 'ruby' },
-      },
-      indent = { enable = true, disable = { 'ruby' } },
-    },
+      }
+
+      vim.treesitter.language.register('bash', 'sh')
+      vim.treesitter.language.register('latex', 'tex')
+      vim.treesitter.language.register('vimdoc', 'help')
+
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = parser_filetypes,
+        callback = function(args)
+          local ok = pcall(vim.treesitter.start, args.buf)
+          if ok then
+            vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+          end
+        end,
+      })
+    end,
     -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
     --
