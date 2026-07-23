@@ -93,7 +93,45 @@ vim.opt.scrolloff = 999
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+vim.keymap.set('n', '<leader>q', function()
+  local source_win = vim.api.nvim_get_current_win()
+  local source_buf = vim.api.nvim_get_current_buf()
+  local source_lnum = vim.api.nvim_win_get_cursor(source_win)[1]
+  local diagnostics_on_line = vim.diagnostic.get(source_buf, { lnum = source_lnum - 1 })
+
+  vim.diagnostic.setloclist { winnr = source_win, open = true }
+
+  if vim.tbl_isempty(diagnostics_on_line) then
+    return
+  end
+
+  vim.schedule(function()
+    if not vim.api.nvim_win_is_valid(source_win) then
+      return
+    end
+
+    local target_idx
+    local loclist = vim.fn.getloclist(source_win)
+    for idx, item in ipairs(loclist) do
+      if item.bufnr == source_buf and item.lnum == source_lnum then
+        target_idx = idx
+        break
+      end
+    end
+
+    if not target_idx then
+      return
+    end
+
+    vim.fn.setloclist(source_win, {}, 'a', { idx = target_idx })
+
+    local loclist_win = vim.fn.getloclist(source_win, { winid = 0 }).winid
+    if loclist_win ~= 0 and vim.api.nvim_win_is_valid(loclist_win) then
+      vim.api.nvim_set_current_win(loclist_win)
+      vim.api.nvim_win_set_cursor(loclist_win, { target_idx, 0 })
+    end
+  end)
+end, { desc = 'Open diagnostic [Q]uickfix list' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
