@@ -465,6 +465,9 @@ require('lazy').setup({
 
       -- Java LSP via Eclipse
       'mfussenegger/nvim-jdtls',
+
+      -- Python LSP
+      'mfussenegger/nvim-dap-python',
     },
     config = function()
       vim.api.nvim_create_autocmd('LspAttach', {
