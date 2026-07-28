@@ -941,6 +941,7 @@ require('lazy').setup({
     end,
   },
   { -- Highlight, edit, and navigate code
+    -- NOTE: You'll need `tree-sitter-cli` installed as a prerequisite
     'nvim-treesitter/nvim-treesitter',
     lazy = false,
     build = ':TSUpdate',
@@ -951,29 +952,32 @@ require('lazy').setup({
         },
       }
 
+      -- Parser name -> Neovim FileType
       local parser_filetypes = {
-        'java',
-        'python',
-        'sh',
-        'c',
-        'diff',
-        'html',
-        'tex',
-        'lua',
-        'luadoc',
-        'markdown',
-        'query',
-        'vim',
-        'help',
-        'typescript',
+        java = 'java',
+        python = 'python',
+        bash = 'sh',
+        c = 'c',
+        diff = 'diff',
+        html = 'html',
+        latex = 'tex',
+        lua = 'lua',
+        luadoc = 'luadoc',
+        markdown = 'markdown',
+        query = 'query',
+        vim = 'vim',
+        vimdoc = 'help',
+        typescript = 'typescript',
       }
 
-      vim.treesitter.language.register('bash', 'sh')
-      vim.treesitter.language.register('latex', 'tex')
-      vim.treesitter.language.register('vimdoc', 'help')
+      for parser, filetype in pairs(parser_filetypes) do
+        vim.treesitter.language.register(parser, filetype)
+      end
+
+      require('nvim-treesitter').install(vim.tbl_keys(parser_filetypes))
 
       vim.api.nvim_create_autocmd('FileType', {
-        pattern = parser_filetypes,
+        pattern = vim.tbl_values(parser_filetypes),
         callback = function(args)
           pcall(vim.treesitter.start, args.buf)
         end,
