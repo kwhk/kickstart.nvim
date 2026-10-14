@@ -641,6 +641,8 @@ require('lazy').setup({
         -- ts_ls = {},
         --
 
+        jsonls = {},
+
         lua_ls = {
           on_init = function(client)
             if client.workspace_folders then
@@ -968,6 +970,7 @@ require('lazy').setup({
         vim = 'vim',
         vimdoc = 'help',
         typescript = 'typescript',
+        json = 'json',
       }
 
       for parser, filetype in pairs(parser_filetypes) do
