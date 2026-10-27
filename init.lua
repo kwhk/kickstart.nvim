@@ -283,6 +283,14 @@ require('lazy').setup({
         { '<leader>o', group = '[O]pen', mode = { 'n' } },
         { '<leader>oh', group = '[H]arpoon', mode = { 'n' } },
         { '<leader>n', group = '[N]eogit', mode = { 'n' } },
+        {
+          'yp',
+          desc = 'Yank path of hovered entry',
+          mode = { 'n' },
+          cond = function()
+            return vim.bo.filetype == 'oil'
+          end,
+        },
       },
     },
   },

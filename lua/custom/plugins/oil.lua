@@ -30,11 +30,14 @@ return {
         ['gx'] = 'actions.open_external',
         ['g.'] = { 'actions.toggle_hidden', mode = 'n' },
         ['g\\'] = { 'actions.toggle_trash', mode = 'n' },
-        ['gp'] = {
-          desc = 'Copy current directory path to clipboard',
+        ['yp'] = {
+          desc = 'Yank absolute path of hovered entry',
+          mode = 'n',
           callback = function()
-            local dir = oil.get_current_dir()
-            vim.fn.setreg('+', dir)
+            local entry = oil.get_cursor_entry()
+            if entry then
+              vim.fn.setreg(vim.v.register, oil.get_current_dir() .. entry.name)
+            end
           end,
         },
       },
