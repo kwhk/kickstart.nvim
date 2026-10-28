@@ -391,13 +391,35 @@ require('lazy').setup({
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
           },
+          live_grep_args = {
+            -- Replaces telescope's defaults entirely, so the output-format flags must be kept
+            vimgrep_arguments = {
+              'rg',
+              '--color=never',
+              '--no-heading',
+              '--with-filename',
+              '--line-number',
+              '--column',
+              '--smart-case',
+              '--hidden', -- Grep hidden files
+              '--glob',
+              '!**/.git/**', -- But exclude git directory
+              -- Apply .gitignore as an explicit ignore file so the later rgignore can re-include .env* files
+              -- (only the .gitignore in cwd is honored; nested ones are not)
+              '--no-ignore-vcs',
+              '--ignore-file',
+              '.gitignore',
+              '--ignore-file',
+              vim.fn.stdpath 'config' .. '/rgignore',
+            },
+          },
         },
       }
 
       -- Enable Telescope extensions if they are installed
       pcall(telescope.load_extension, 'fzf')
       pcall(telescope.load_extension, 'ui-select')
-      pcall(telescope.load_extension, 'live-grep-args')
+      pcall(telescope.load_extension, 'live_grep_args')
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
@@ -422,7 +444,7 @@ require('lazy').setup({
 
       -- Configuring find_files to also search for hidden files
       vim.keymap.set('n', '<leader>sf', function()
-        builtin.find_files { hidden = false }
+        builtin.find_files { hidden = true }
       end, { desc = '[S]earch [F]iles' })
 
       -- It's also possible to pass additional configuration options.

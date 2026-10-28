@@ -1,0 +1,2 @@
+# Passed to rg after .gitignore by live_grep_args to re-include env files
+!.env*
