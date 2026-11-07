@@ -61,6 +61,7 @@ return { -- Useful plugin to show you pending keybinds.
           return vim.bo.filetype == 'oil'
         end,
       },
+      { '<leader>a', group = '[A]I', mode = { 'n' } },
     },
   },
 }
