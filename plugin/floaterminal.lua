@@ -44,6 +44,12 @@ local toggle_terminal = function()
     state.floating = create_floating_window { buf = state.floating.buf }
     if vim.bo[state.floating.buf].buftype ~= 'terminal' then
       vim.cmd.terminal()
+      -- Hide terminal with double escape
+      vim.keymap.set('t', '<Esc><Esc>', function()
+        if vim.api.nvim_win_is_valid(state.floating.win) then
+          vim.api.nvim_win_hide(state.floating.win)
+        end
+      end, { buf = state.floating.buf, desc = 'Hide floating terminal' })
     end
     vim.cmd 'startinsert'
   else

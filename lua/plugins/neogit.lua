@@ -13,6 +13,12 @@ return {
         diffview = true,
         telescope = true,
       },
+      mappings = {
+        status = {
+          -- Close Neogit with double escape
+          ['<esc><esc>'] = 'Close',
+        },
+      },
     }
 
     vim.keymap.set('n', '<leader>on', function()
