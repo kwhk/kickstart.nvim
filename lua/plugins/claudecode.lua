@@ -22,6 +22,11 @@ return {
     'ClaudeCodeDiffDeny',
     'ClaudeCodeCloseAllDiffs',
   },
+  opts = {
+    terminal = {
+      split_width_percentage = 0.4,
+    },
+  },
   keys = {
     { '<leader>a', nil, desc = 'AI/Claude Code' },
     { '<leader>ac', '<cmd>ClaudeCode<cr>', desc = 'Toggle Claude' },

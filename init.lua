@@ -151,6 +151,12 @@ vim.keymap.set('n', '<C-right>', '<C-w><right>', { desc = 'Move focus to the rig
 vim.keymap.set('n', '<C-down>', '<C-w><down>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-up>', '<C-w><up>', { desc = 'Move focus to the upper window' })
 
+-- Same navigation straight from terminal mode, no need to <Esc> first
+vim.keymap.set('t', '<C-left>', '<C-\\><C-n><C-w><left>', { desc = 'Move focus to the left window' })
+vim.keymap.set('t', '<C-right>', '<C-\\><C-n><C-w><right>', { desc = 'Move focus to the right window' })
+vim.keymap.set('t', '<C-down>', '<C-\\><C-n><C-w><down>', { desc = 'Move focus to the lower window' })
+vim.keymap.set('t', '<C-up>', '<C-\\><C-n><C-w><up>', { desc = 'Move focus to the upper window' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
